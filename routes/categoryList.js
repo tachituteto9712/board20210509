@@ -2,15 +2,14 @@ var express = require('express');
 var router = express.Router();
 
 var pg = require('pg');
+var conf = require('../config/config.json');
 const pool = new pg.Pool({
-    user: 'udrtsgeubiqkmo',
-    host: 'ec2-23-22-191-232.compute-1.amazonaws.com',
-    database: 'd50agr4mtf5jma',
-    password: '7d051d0ec1dd225a10efa8b6e33e494f4174fbdd5914d9e03db1c36cc4ffcd7b',
-    port: 5432,
-    ssl: {
-        rejectUnauthorized: false
-    }
+    user: conf.db.user,
+    host: conf.db.host,
+    database: conf.db.database,
+    password: conf.db.password,
+    ssl: Boolean(Number(conf.db.ssl)),
+    port: conf.db.port
 });
 
 /* GET home page. */
@@ -24,7 +23,7 @@ router.get('/', function (req, res, next) {
             //同期っぽい処理
             try {
                 var result = await client.query(
-                    "select * from m_category;");
+                    "select * from " + conf.db.schema + "m_category;");
                 if (result !== undefined) {
                     if (result.rowCount == 0) {
                         //ret["result"] = "NG";
