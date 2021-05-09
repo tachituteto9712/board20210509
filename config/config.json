@@ -1,5 +1,5 @@
 {
-  "db_": {
+  "db": {
     "user": "udrtsgeubiqkmo",
     "host": "ec2-23-22-191-232.compute-1.amazonaws.com",
     "database": "d50agr4mtf5jma",
@@ -8,7 +8,7 @@
     "ssl": "1",
     "port": "5432"
   },
-  "db": {
+  "db_": {
     "user": "postgres",
     "host": "localhost",
     "database": "board",
