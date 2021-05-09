@@ -15,9 +15,10 @@
     "morgan": "~1.9.1",
     "pg": "^8.6.0",
     "sequelize": "^6.6.2",
-    "sequelize-cli": "^6.2.0"
+    "sequelize-cli": "^6.2.0",
+    "express-session": "^1.17.1"
   },
   "devDependencies": {
-    "express-session": "1.14.2"
+    "express-session": "^1.17.1"
   }
 }
