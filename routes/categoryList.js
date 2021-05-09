@@ -3,10 +3,10 @@ var router = express.Router();
 
 var pg = require('pg');
 const pool = new pg.Pool({
-    user: 'sxcfvhmctyqrpr',
-    host: 'ec2-3-215-57-87.compute-1.amazonaws.com',
-    database: 'd7ct6eqb6kkr5j',
-    password: 'e0a878b7ffa7b91b27624f39b9d5d8e7b62e3e44608e1f2e98558af7916359bb',
+    user: 'udrtsgeubiqkmo',
+    host: 'ec2-23-22-191-232.compute-1.amazonaws.com',
+    database: 'd50agr4mtf5jma',
+    password: '7d051d0ec1dd225a10efa8b6e33e494f4174fbdd5914d9e03db1c36cc4ffcd7b',
     port: 5432,
     ssl: {
         rejectUnauthorized: false

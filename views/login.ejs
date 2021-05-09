@@ -21,7 +21,8 @@
                 method: 'post',
                 data: {
                     id: $("#textId").val(),
-                    pass: $("#textPass").val()
+                    pass: $("#textPass").val(),
+                    mode: "loginCheck"
                 },
                 dataType: 'json',
                 success: function (data) {

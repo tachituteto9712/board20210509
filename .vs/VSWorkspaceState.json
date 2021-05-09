@@ -4,9 +4,10 @@
     "\\css",
     "\\data_template",
     "\\js",
+    "\\pic",
     "\\routes",
     "\\views"
   ],
-  "SelectedNode": "\\routes\\index.js",
+  "SelectedNode": "\\css\\style.css",
   "PreviewInSolutionExplorer": false
 }
