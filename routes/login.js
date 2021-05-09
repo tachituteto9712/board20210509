@@ -79,6 +79,7 @@ router.post('/', function (req, res) {
                 } catch (err) {
                     console.log(err.stack);
                 } finally {
+                    client.release();
                     return res.json(ret);
                 }
 

@@ -19,7 +19,7 @@ router.get('/', function (req, res, next) {
         res.redirect("/login");
         return;
     } else {
-        console.log(req.session.userCd);
+        res.redirect("/categoryList");
     }
 
     var datas = [];

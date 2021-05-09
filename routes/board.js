@@ -45,10 +45,12 @@ router.get('/', function (req, res, next) {
                             datas.push(JSON.stringify(data));
                         }
                     }
-                    res.render('board', { title: 'Express', data: datas, categoryCd: req.query.ccd});
+                    res.render('board', { title: 'Express', data: datas, categoryCd: req.query.ccd });
                 }
             } catch (err) {
                 console.log(err.stack);
+            } finally {
+                client.release();
             }
 
             //非同期処理
@@ -106,6 +108,7 @@ router.post('/', function (req, res) {
                         await client.query("ROLLBACK");
                         console.log(err.stack);
                     } finally {
+                        client.release();
                         return res.json(ret);
                     }
 
