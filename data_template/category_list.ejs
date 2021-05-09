@@ -1,0 +1,6 @@
+<% if(val != ''){%>
+<% var obj = JSON.parse(val);%>
+<tr>
+	<td><a href="/board?ccd=<%=obj.cd%>"><%= obj.name%></a></td>
+</tr>
+<%}%>

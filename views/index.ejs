@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="/js/jquery-3.6.0.min.js"></script>
+    <script src="/js/jquery.blockUI.js"></script>
+    <script>
+          $(document).ready(function(){
+
+        });
+
+        
+        function checkPass() {
+            $.ajax({
+                url: '/',
+                method: 'post',
+                data: {
+                    id: 1
+                },
+                success: function (data) {
+                    if (data["result"] == "NG"){
+                    } else {
+                        location.href = "/";
+                    }
+                    $.unblockUI();
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    alert('error!!!');
+                    console.log("XMLHttpRequest : " + XMLHttpRequest.status);
+                    console.log("textStatus     : " + textStatus);
+                    console.log("errorThrown    : " + errorThrown.message);
+                    $.unblockUI();
+                }
+            });
+        }
+    </script>
+  </head>
+  <body>
+    <h1><%= title %></h1>
+    <form>
+        <div class="main">
+            <div>
+                <input type="button" value="+" class="plus_button">
+                <input type="button" value="-" class="minus_button">
+                <div class="komidashi">
+                    <ul>
+                        <li>I</li>
+                        <li>D</li>
+                        <li>X</li>
+                    </ul>
+                </div>
+            </div><!--ここまで-->
+
+            <div>
+                INDEX
+            </div>
+        </div>
+    </form>
+  </body>
+</html>

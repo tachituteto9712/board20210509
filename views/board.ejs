@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title><%= title %></title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" crossorigin="anonymous">
+	<link rel="stylesheet" href="/css/style.css">
+	<script src="/js/jquery-3.6.0.min.js"></script>
+	<script src="/js/jquery.blockUI.js"></script>
+	<script>
+          $(document).ready(function(){
+            $(".plus_button").click(function(){
+                var $div = $(this).closest("div");
+                $div.find("div.komidashi").show();
+                $div.find(".minus_button").show();
+                $(this).hide();
+            });
+
+            $(".minus_button").click(function(){
+                var $div = $(this).closest("div");
+                $div.find("div.komidashi").hide();
+                $div.find(".plus_button").show();
+                $(this).hide();
+            });
+            $("#buttonUpdate").click(function () {
+                updateBoard();
+            });
+        });
+
+		function load(msg) {
+			$("#div_msg").text(msg);
+			$.blockUI({ message: $('#div_msg') });
+        }
+
+        function updateBoard() {
+            load("データ更新中...");
+            $.ajax({
+                url: '/board',
+                method: 'post',
+                data: {
+                    categoryCd: $("#hiddenCategory").val(),
+                    naiyo: $("#textMemo").val()
+                },
+                success: function (data) {
+                    if (data["result"] == "NG") {
+						alert("No...");
+                    } else {
+						load("(´ω`)おけ...ページ更新中...");
+						location.href = location.href;
+                    }
+                    $.unblockUI();
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    alert('error!!!');
+                    console.log("XMLHttpRequest : " + XMLHttpRequest.status);
+                    console.log("textStatus     : " + textStatus);
+                    console.log("errorThrown    : " + errorThrown.message);
+                    $.unblockUI();
+                }
+            });
+        }
+
+        function load(msg) {
+			$("#div_msg").hide();
+			$("#div_msg").text("");
+			$("#div_msg").text(msg);
+			$.blockUI({ message: $('#div_msg') });
+		}
+	</script>
+</head>
+<body>
+	<h1><%= title %></h1>
+	<form>
+        <div id="div_msg"　style="display:none">
+
+        </div>
+		<div class="main">
+			<div>
+				<input type="button" value="+" class="plus_button">
+				<input type="button" value="-" class="minus_button">
+				<div class="komidashi">
+					<ul>
+						<li>あ</li>
+						<li>ん</li>
+						<li>こ</li>
+					</ul>
+				</div>
+			</div><!--ここまで-->
+
+			<div>
+				<textarea id="textMemo" rows="4" cols="40" placeholder="ヾ(*｀Д´*)ノ < ｶｹｰｯ"></textarea>
+				<br /><input type="button" id="buttonUpdate" value="登録" />
+				<br />
+
+				<table class="table">
+					<% for(var i in data){%>
+					<%- include('../data_template/data_item', {val:data[i]})%>
+					<%}%>
+				</table>
+			</div>
+            <input id="hiddenCategory"type="hidden" value="<%=categoryCd%>">
+		</div>
+	</form>
+</body>
+</html>

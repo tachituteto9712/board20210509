@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title><%= title %></title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" crossorigin="anonymous">
+	<link rel="stylesheet" href="/css/style.css">
+	<script src="/js/jquery-3.6.0.min.js"></script>
+	<script src="/js/jquery.blockUI.js"></script>
+	<script>
+          $(document).ready(function(){
+            $(".plus_button").click(function(){
+                var $div = $(this).closest("div");
+                $div.find("div.komidashi").show();
+                $div.find(".minus_button").show();
+                $(this).hide();
+            });
+
+            $(".minus_button").click(function(){
+                var $div = $(this).closest("div");
+                $div.find("div.komidashi").hide();
+                $div.find(".plus_button").show();
+                $(this).hide();
+            });
+            $("#buttonUpdate").click(function () {
+                checkPass();
+            });
+        });
+
+
+        function checkPass() {
+            $.ajax({
+                url: '/',
+                method: 'post',
+                data: {
+                    id: 1
+                },
+                success: function (data) {
+                    if (data["result"] == "NG"){
+                    } else {
+                        location.href = "/board";
+                    }
+                    $.unblockUI();
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    alert('error!!!');
+                    console.log("XMLHttpRequest : " + XMLHttpRequest.status);
+                    console.log("textStatus     : " + textStatus);
+                    console.log("errorThrown    : " + errorThrown.message);
+                    $.unblockUI();
+                }
+            });
+        }
+	</script>
+</head>
+<body>
+	<h1><%= title %></h1>
+	<form>
+		<div class="main">
+			<div>
+				<input type="button" value="+" class="plus_button">
+				<input type="button" value="-" class="minus_button">
+				<div class="komidashi">
+					<ul>
+						<li>ど</li>
+						<li>こ</li>
+						<li>も</li>
+					</ul>
+				</div>
+			</div><!--ここまで-->
+
+			<div>
+				<table class="table">
+					<% for(var i in data){%>
+					<%- include('../data_template/category_list', {val:data[i]})%>
+					<%}%>
+				</table>
+			</div>
+		</div>
+	</form>
+</body>
+</html>

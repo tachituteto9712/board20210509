@@ -1,0 +1,33 @@
+.main {
+    margin:10px;
+    padding:10px;
+    border: 1px solid #333333;
+    border-radius: 10px;
+    
+}
+
+.plus_button {
+    width: 30px;
+    color: #fff;
+    background-color: #eb6100;
+    border-radius: 30px;
+    font-weight: bold;
+}
+.minus_button {
+    width: 30px;
+    color: #fff;
+    background-color: #eb6100;
+    display: none;
+    border-radius: 30px;
+    font-weight:bold;
+}
+.komidashi {
+    display:none;
+}
+.alert_msg {
+    display:none;
+    color:red;
+}
+.left {
+    float:left;
+}

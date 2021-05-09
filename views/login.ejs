@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>Login</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="/js/jquery-3.6.0.min.js"></script>
+    <script src="/js/jquery.blockUI.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#buttonLogin").click(function () {
+                checkPass();
+            });
+        });
+
+        function checkPass() {
+            $.ajax({
+                url: '/login',
+                method: 'post',
+                data: {
+                    id: $("#textId").val(),
+                    pass: $("#textPass").val()
+                },
+                dataType: 'json',
+                success: function (data) {
+                    if (data["result"] == "NG"){
+                        var $ele = $(".alert_msg");
+                        $ele.show();
+						$ele.text(data["msg_face"]);
+                    } else {
+                        load(data["msg_face"]);
+                        location.href = "/categoryList";
+                    }
+                    $.unblockUI();
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    alert('error!!!');
+                    console.log("XMLHttpRequest : " + XMLHttpRequest.status);
+                    console.log("textStatus     : " + textStatus);
+                    console.log("errorThrown    : " + errorThrown.message);
+                    $.unblockUI();
+                }
+            });
+        }
+
+        function check() {
+
+        }
+
+        function load(msg) {
+            $("#div_msg").text(msg);
+            $.blockUI({ message: $('#div_msg') });
+        }
+    </script>
+</head>
+
+<body class="container" >
+   <div role="main" style="display: flex;">
+        <div style="flex:1">
+            <header>
+                <h1 class="display-4">Login</h1>
+            </header>
+
+            <p>What is your id and your password?</p>
+            <div class="form-group">
+                <div class="alert_msg">
+                
+                </div>
+                <table>
+                    <tr>
+                        <td>
+                            ID
+                        </td>
+                        <td>
+                            <input type="text" id="textId" class="">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            パスワード
+                        </td>
+                        <td>
+                            <input type="text" id="textPass" class="">
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <button id="buttonLogin" onclick="load('チェック中...');" class="btn btn-primary">送信</button>
+         </div>
+        <div style="flex:2">
+            <img src="/pic/eriNo.jpg" alt="" title="" style="width:250px;height:250px;">
+        </div>
+    </div>
+    <div id="div_msg" style="display:none">
+    </div>
+</body>
+</html>
