@@ -2,16 +2,16 @@
     font-size:20px;
 }
 .main {
-    margin:30px;
-    padding:10px;
+    margin: 30px;
+    padding: 0px 30px 30px 30px;
     border: 1px solid #333333;
     border-radius: 10px;
-    
 }
-input[type='text'] {
-    font-size: 16px;
-    transform: scale(0.8);
+
+header{
+    font-size:100px;
 }
+
 .plus_button {
     width: 30px;
     color: #fff;
