@@ -22,34 +22,42 @@
                 $(this).hide();
             });
             $("#buttonUpdate").click(function () {
-                checkPass();
+				updateCategory();
             });
         });
 
 
-        function checkPass() {
-            $.ajax({
-                url: '/',
-                method: 'post',
-                data: {
-                    id: 1
-                },
-                success: function (data) {
-                    if (data["result"] == "NG"){
-                    } else {
-                        location.href = "/board";
-                    }
-                    $.unblockUI();
-                },
-                error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    alert('error!!!');
-                    console.log("XMLHttpRequest : " + XMLHttpRequest.status);
-                    console.log("textStatus     : " + textStatus);
-                    console.log("errorThrown    : " + errorThrown.message);
-                    $.unblockUI();
-                }
-            });
-        }
+		function updateCategory() {
+			load("データ更新中...");
+			$.ajax({
+				url: '/categoryList',
+				method: 'post',
+				data: {
+					mode: "updateCategory",
+					naiyo: $("#textMemo").val()
+				},
+				success: function (data) {
+					if (data["result"] == "NG") {
+						alert("No...");
+					} else {
+						load("(´ω`)おけ...ページ更新中...");
+						location.href = location.href;
+					}
+					$.unblockUI();
+				},
+				error: function (XMLHttpRequest, textStatus, errorThrown) {
+					alert('error!!!');
+					console.log("XMLHttpRequest : " + XMLHttpRequest.status);
+					console.log("textStatus     : " + textStatus);
+					console.log("errorThrown    : " + errorThrown.message);
+					$.unblockUI();
+				}
+			});
+		}
+		function load(msg) {
+			$("#div_msg").text(msg);
+			$.blockUI({ message: $('#div_msg') });
+		}
 	</script>
 </head>
 <body>
@@ -69,12 +77,18 @@
 			</div><!--ここまで-->
 
 			<div>
+				<textarea id="textMemo" rows="4" cols="40" placeholder="ヾ(*｀Д´*)ノ < ｶｹｰｯ"></textarea>
+				<br /><input type="button" id="buttonUpdate" value="登録" />
+				<br />
+
 				<table class="table">
 					<% for(var i in data){%>
 					<%- include('../data_template/category_list', {val:data[i]})%>
 					<%}%>
 				</table>
 			</div>
+		</div>
+		<div id="div_msg" style="display:none">
 		</div>
 	</form>
 </body>

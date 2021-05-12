@@ -32,7 +32,8 @@ router.get('/', function (req, res, next) {
             //同期っぽい処理
             try {
                 var result = await client.query(
-                    "select * from " + conf.db.schema + "t_knowledge t1"
+                    "select *, to_char(t1.作成日付 + interval '9 hour', 'yyyy/mm/dd hh24:mm:ss') as メッセージ作成日付, m1.名前 as ユーザー名 "
+                    + " from " + conf.db.schema + "t_knowledge t1"
                     + " inner join " + conf.db.schema +"m_user m1 on t1.作成者cd = m1.ユーザーcd"
                     + " where t1.カテゴリcd = ($1) order by t1.seq;"
                     , [req.query.ccd]);
@@ -43,7 +44,7 @@ router.get('/', function (req, res, next) {
                     } else {
                         //ret["result"] = "OK";
                         for (lc = 0; lc < result.rowCount; lc++) {
-                            var data = { name: result.rows[lc]["名前"], naiyo: result.rows[lc]["内容"] };
+                            var data = { name: result.rows[lc]["ユーザー名"], naiyo: result.rows[lc]["内容"], date: result.rows[lc]["メッセージ作成日付"], user: result.rows[lc]["ユーザー名"] };
                             datas.push(JSON.stringify(data));
                         }
                     }
