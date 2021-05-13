@@ -32,7 +32,7 @@ router.get('/', function (req, res, next) {
             //同期っぽい処理
             try {
                 var result = await client.query(
-                    "select *, to_char(t1.作成日付 + interval '9 hour', 'yyyy/mm/dd hh24:mm:ss') as メッセージ作成日付, m1.名前 as ユーザー名 "
+                    "select *, to_char(t1.作成日付', 'yyyy/mm/dd hh24:mm:ss') as メッセージ作成日付, m1.名前 as ユーザー名 "
                     + " from " + conf.db.schema + "t_knowledge t1"
                     + " inner join " + conf.db.schema +"m_user m1 on t1.作成者cd = m1.ユーザーcd"
                     + " where t1.カテゴリcd = ($1) order by t1.seq;"
