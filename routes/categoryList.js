@@ -39,7 +39,7 @@ router.get('/', function (req, res, next) {
                     + ", m1.名前 as カテゴリー名"
                     + ", to_char(m1.作成日付, 'yyyy/mm/dd hh24:mi:ss') as カテゴリ作成日付"
                     + ", m2.名前 as ユーザー名 "
-                    + "from " + conf.db.schema + "m_category m1"
+                    + "from " + conf.db.schema + "m_komoku m1"
                  + " inner join " + conf.db.schema + "m_user m2 on m1.作成者cd = m2.ユーザーcd"
                 );
                 if (result !== undefined) {
@@ -91,7 +91,7 @@ router.post('/', function (req, res) {
                         //同期っぽい処理
                         try {
                             await client.query("BEGIN");
-                            var result = await client.query("select max(カテゴリーcd) as seq from " + conf.db.schema + "m_category;"
+                            var result = await client.query("select max(カテゴリーcd) as seq from " + conf.db.schema + "m_komoku;"
                             );
                             if (result !== undefined) {
                                 var seq = 1;
@@ -108,7 +108,7 @@ router.post('/', function (req, res) {
                                 var dt = new Date();
                                 var formatted = dt.toFormat("YYYY-MM-DD HH24:MI:SS");
 
-                                await client.query("INSERT INTO " + conf.db.schema + "m_category"
+                                await client.query("INSERT INTO " + conf.db.schema + "m_komoku"
                                     + " (カテゴリーcd, 名前, 作成者cd, 作成日付 ,更新者cd, 更新日付)"
                                     + " VALUES($1, $2, $3, $4, $5, $6); "
                                     , [seq, req.body.naiyo, req.session.userCd, formatted, req.session.userCd, formatted]);
