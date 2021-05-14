@@ -15,6 +15,9 @@ const pool = new pg.Pool({
     port: conf.db.port
 });
 
+
+require('date-utils');
+
 /* GET home page. */
 router.get('/', function (req, res, next) {
     var datas = [];
@@ -32,7 +35,7 @@ router.get('/', function (req, res, next) {
             //同期っぽい処理
             try {
                 var result = await client.query(
-                    "select *, to_char(t1.作成日付, 'yyyy/mm/dd hh24:mm:ss') as メッセージ作成日付, m1.名前 as ユーザー名 "
+                    "select *, to_char(t1.作成日付, 'yyyy/mm/dd hh24:mi:ss') as メッセージ作成日付, m1.名前 as ユーザー名 "
                     + " from " + conf.db.schema + "t_knowledge t1"
                     + " inner join " + conf.db.schema +"m_user m1 on t1.作成者cd = m1.ユーザーcd"
                     + " where t1.カテゴリcd = ($1) order by t1.seq;"
@@ -99,11 +102,13 @@ router.post('/', function (req, res) {
                                     console.log(seq);
                                 }
                             }
+                            var dt = new Date();
+                            var formatted = dt.toFormat("YYYY-MM-DD HH24:MI:SS");
 
                             await client.query("INSERT INTO " + conf.db.schema + "T_KNOWLEDGE"
-                                + " (カテゴリcd, seq, 内容, 作成者cd, 更新者cd)"
-                                + " VALUES($1, $2, $3, $4, $5); "
-                                , [req.body.categoryCd, seq, req.body.naiyo, req.session.userCd, req.session.userCd]);
+                                + " (カテゴリcd, seq, 内容, 作成者cd, 作成日付, 更新者cd, 更新日付)"
+                                + " VALUES($1, $2, $3, $4, $5, $6, $7); "
+                                , [req.body.categoryCd, seq, req.body.naiyo, req.session.userCd, formatted, req.session.userCd, formatted]);
                             await client.query("COMMIT");
                             ret["result"] = "OK";
                         }

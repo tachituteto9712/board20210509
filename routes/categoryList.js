@@ -15,6 +15,9 @@ const pool = new pg.Pool({
     port: conf.db.port
 });
 
+require('date-utils');
+
+
 /* GET home page. */
 router.get('/', function (req, res, next) {
     var datas = [];
@@ -34,7 +37,7 @@ router.get('/', function (req, res, next) {
                 var result = await client.query(
                     "select *"
                     + ", m1.名前 as カテゴリー名"
-                    + ", to_char(m1.作成日付, 'yyyy/mm/dd hh24:mm:ss') as カテゴリ作成日付"
+                    + ", to_char(m1.作成日付, 'yyyy/mm/dd hh24:mi:ss') as カテゴリ作成日付"
                     + ", m2.名前 as ユーザー名 "
                     + "from " + conf.db.schema + "m_category m1"
                  + " inner join " + conf.db.schema + "m_user m2 on m1.作成者cd = m2.ユーザーcd"
@@ -102,11 +105,13 @@ router.post('/', function (req, res) {
                                         console.log(seq);
                                     }
                                 }
+                                var dt = new Date();
+                                var formatted = dt.toFormat("YYYY-MM-DD HH24:MI:SS");
 
                                 await client.query("INSERT INTO " + conf.db.schema + "m_category"
-                                    + " (カテゴリーcd, 名前, 作成者cd, 更新者cd)"
-                                    + " VALUES($1, $2, $3, $4); "
-                                    , [seq, req.body.naiyo, req.session.userCd, req.session.userCd]);
+                                    + " (カテゴリーcd, 名前, 作成者cd, 作成日付 ,更新者cd, 更新日付)"
+                                    + " VALUES($1, $2, $3, $4, $5, $6); "
+                                    , [seq, req.body.naiyo, req.session.userCd, formatted, req.session.userCd, formatted]);
                                 await client.query("COMMIT");
                                 ret["result"] = "OK";
                             }
