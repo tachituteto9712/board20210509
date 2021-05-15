@@ -8,10 +8,10 @@ const pool = new pg.Pool({
     host: conf.db.host,
     database: conf.db.database,
     password: conf.db.password,
-    ssl: {
-        sslmode: Boolean(Number(conf.db.ssl)) ? 'require' : false,
-        rejectUnauthorized: Boolean(Number(conf.db.ssl)) ? false : true
-    },
+    //ssl: {
+    //    sslmode: Boolean(Number(conf.db.ssl)) ? 'require' : false,
+    //    rejectUnauthorized: Boolean(Number(conf.db.ssl)) ? false : true
+    //},
     port: conf.db.port
 });
 

@@ -8,10 +8,10 @@ const pool = new pg.Pool({
     host: conf.db.host,
     database: conf.db.database,
     password: conf.db.password,
-    ssl: {
-        sslmode: Boolean(Number(conf.db.ssl)) ? 'require' : false,
-        rejectUnauthorized: Boolean(Number(conf.db.ssl)) ? false : true
-    },
+    //ssl: {
+    //    sslmode: Boolean(Number(conf.db.ssl)) ? 'require' : false,
+    //    rejectUnauthorized: Boolean(Number(conf.db.ssl)) ? false : true
+    //},
     port: conf.db.port
 });
 
@@ -49,7 +49,7 @@ router.get('/', function (req, res, next) {
                     } else {
                         //ret["result"] = "OK";
                         for (lc = 0; lc < result.rowCount; lc++) {
-                            var data = { cd: result.rows[lc]["カテゴリーcd"], name: result.rows[lc]["カテゴリー名"], date: result.rows[lc]["カテゴリ作成日付"], user: result.rows[lc]["ユーザー名"]};
+                            var data = { cd: result.rows[lc]["カテゴリcd"], name: result.rows[lc]["カテゴリー名"], date: result.rows[lc]["カテゴリ作成日付"], user: result.rows[lc]["ユーザー名"]};
                             datas.push(JSON.stringify(data));
                             console.log(result.rows[lc]["名前"]);
                         }
@@ -91,7 +91,7 @@ router.post('/', function (req, res) {
                         //同期っぽい処理
                         try {
                             await client.query("BEGIN");
-                            var result = await client.query("select max(カテゴリーcd) as seq from " + conf.db.schema + "m_komoku;"
+                            var result = await client.query("select max(カテゴリcd) as seq from " + conf.db.schema + "m_komoku;"
                             );
                             if (result !== undefined) {
                                 var seq = 1;
@@ -109,7 +109,7 @@ router.post('/', function (req, res) {
                                 var formatted = dt.toFormat("YYYY-MM-DD HH24:MI:SS");
 
                                 await client.query("INSERT INTO " + conf.db.schema + "m_komoku"
-                                    + " (カテゴリーcd, 名前, 作成者cd, 作成日付 ,更新者cd, 更新日付)"
+                                    + " (カテゴリcd, 名前, 作成者cd, 作成日付 ,更新者cd, 更新日付)"
                                     + " VALUES($1, $2, $3, $4, $5, $6); "
                                     , [seq, req.body.naiyo, req.session.userCd, formatted, req.session.userCd, formatted]);
                                 await client.query("COMMIT");
