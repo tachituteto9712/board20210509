@@ -1,10 +1,13 @@
 <% if(val != ''){%>
 <% var obj = JSON.parse(val);%>
 <tr>
-	<th><%= obj.name%></th>
-	<td><%= obj.naiyo%></td>
-	<td>
-	<span style="color:cornflowerblue;font-size:25px;"><%= obj.date%></span>&nbsp;に<br/>
-	<span style="color:palevioletred;font-size:25px;"><%= obj.user%></span>&nbsp;が作成</td>
+	<td name="mark"style="width:20px;border:none;font-size:30px" memo="<%=obj.memo_flg%>">★</td>
+	<th style="width:200px;">
+		<%= obj.name%>
+		<br />
+		<span style="color:palevioletred;font-size:15px;"><%= obj.date%></span>
+	</th>
+	<td><%- obj.naiyo%></td>
+	<td></td>
 </tr>
 <%}%>
