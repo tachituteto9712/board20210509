@@ -2,6 +2,7 @@
 <html>
 <head>
     <title><%= title %></title>
+    <meta name="viewport" content="user-scalable=no">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" crossorigin="anonymous">
     <link rel="stylesheet" href="/css/style.css">
     <script src="/js/jquery-3.6.0.min.js"></script>
@@ -26,36 +27,36 @@
                 updateBoard();
             });
 
-			$("#buttonSearch").click(function () {
-				searchBoard();
-			});
+            $("#buttonSearch").click(function () {
+                searchBoard();
+            });
 
-   //         $(".table tr td[memo=''], .table tr td[memo='0']").css("color", "blue");
-			//$(".table tr td[memo='1']").css("color", "red");
-   //         $(".table tr td[name='mark']").click(function () {
-			//	var $tr = $(this).closest("tr");
-   //             if ($(this).attr("memo") == "" || $(this).attr("memo") == "0") {
-   //                 $(this).css("color", "red");
-   //                 $(this).attr("memo", "1");
-			//		$tr.css("background-color", "#FFDDFF");
-			//	} else if ($(this).attr("memo") == "1"){
-			//		$(this).css("color", "blue");
-   //                 $(this).attr("memo", "0");
-			//		$tr.css("background-color", "#CCFFFF");
-   //             }
-   //         });
-   //         $(".table tr td[name='mark']").hover(function () {
-   //             var $tr = $(this).closest("tr");
-			//	if ($(this).attr("memo") == "" || $(this).attr("memo") == "0") {
-			//		$tr.css("background-color", "#CCFFFF");
-			//	} else if ($(this).attr("memo") == "1"){
-			//		$tr.css("background-color", "#FFDDFF");
-   //             }
+            //         $(".table tr td[memo=''], .table tr td[memo='0']").css("color", "blue");
+            //$(".table tr td[memo='1']").css("color", "red");
+            //         $(".table tr td[name='mark']").click(function () {
+            //	var $tr = $(this).closest("tr");
+            //             if ($(this).attr("memo") == "" || $(this).attr("memo") == "0") {
+            //                 $(this).css("color", "red");
+            //                 $(this).attr("memo", "1");
+            //		$tr.css("background-color", "#FFDDFF");
+            //	} else if ($(this).attr("memo") == "1"){
+            //		$(this).css("color", "blue");
+            //                 $(this).attr("memo", "0");
+            //		$tr.css("background-color", "#CCFFFF");
+            //             }
+            //         });
+            //         $(".table tr td[name='mark']").hover(function () {
+            //             var $tr = $(this).closest("tr");
+            //	if ($(this).attr("memo") == "" || $(this).attr("memo") == "0") {
+            //		$tr.css("background-color", "#CCFFFF");
+            //	} else if ($(this).attr("memo") == "1"){
+            //		$tr.css("background-color", "#FFDDFF");
+            //             }
 
-   //         }, function () {
-			//	var $tr = $(this).closest("tr");
-			//	$tr.css("background-color", "#FFFFFF");
-   //         });
+            //         }, function () {
+            //	var $tr = $(this).closest("tr");
+            //	$tr.css("background-color", "#FFFFFF");
+            //         });
 
             $(".table tr td[name='mark']").draggable();
         });
@@ -96,11 +97,11 @@
 
         function searchBoard() {
             load("データ検索中...");
-			var form = document.forms["form"];
-			form.method = "POST";
-			form.action = "/board";
-			form.submit();
-			//location.href = "/board" + "?ccd=" + $("#hiddenCategory").val() +"&srch=" + $("#textSearch").val();
+            var form = document.forms["form"];
+            form.method = "POST";
+            form.action = "/board";
+            form.submit();
+            //location.href = "/board" + "?ccd=" + $("#hiddenCategory").val() +"&srch=" + $("#textSearch").val();
         }
         function load(msg) {
             $("#div_msg").hide();
@@ -130,19 +131,19 @@
                          </ul>
                      </div>
                  </div><!--ここまで-->
-                 <textarea id="textMemo" rows="4" cols="40" placeholder="ヾ(*｀Д´*)ノ < ｶｹｰｯ" style=""></textarea>
+                 <textarea id="textMemo" rows="4" cols="40" placeholder="ヾ(*｀Д´*)ノ < ｶｹｰｯ" style="font-size:25px"></textarea>
                  
                  <table>
                      <tr>
                          <td>
-                             <input type="button" id="buttonUpdate" value="登録" />
+                             <input type="button" id="buttonUpdate" value="登録" style="font-size:25px"/>
                          </td>
                      </tr>
-                     <tr>
+                     <tr style="margin-top:10px;margin-bottom:10px">
                          <td>
                  
-                             <input type="text" id="textSearch" value="<%= searchText%>" placeholder="(｢･ω･)｢<ｻｶﾞｽﾉﾀﾞ" name="srch"/>
-                             ><input type="button" id="buttonSearch" value="検索" />
+                             <input type="text" id="textSearch" value="<%= searchText%>" placeholder="(｢･ω･)｢<ｻｶﾞｽﾉﾀﾞ" name="srch" style="height: 50px; font-size: 30px;"/>
+                             <span style="font-size:40px">></span><input type="button" id="buttonSearch" value="検索" style="font-size:25px"/>
                          </td>
                      </tr>
                  </table>
