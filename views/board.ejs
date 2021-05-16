@@ -81,7 +81,7 @@
                         alert("No...");
                     } else {
                         load("(´ω`)おけ...ページ更新中...");
-                        location.href = location.href;
+						location.href = "/board?ccd=" + $("#hiddenCategory").val();
                     }
                     $.unblockUI();
                 },
