@@ -68,6 +68,14 @@
 
         function updateBoard() {
             load("データ更新中...");
+
+            if ($.trim($("#textMemo").val()) == "") {
+                $("#spanUpdateErr").show();
+                $("#spanUpdateErr").text("(#ﾟДﾟ) <ﾀﾞﾒｯｯ!!");
+				$.unblockUI();
+                return false;
+            }
+
             $.ajax({
                 url: '/board',
                 method: 'post',
@@ -136,7 +144,7 @@
                  <table>
                      <tr>
                          <td>
-                             <input type="button" id="buttonUpdate" value="登録" style="font-size:25px"/>
+                             <input type="button" id="buttonUpdate" value="登録" style="font-size:25px"/><span id="spanUpdateErr" class="alert_msg"></span>
                          </td>
                      </tr>
                      <tr style="margin-top:10px;margin-bottom:10px">

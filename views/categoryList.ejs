@@ -29,6 +29,14 @@
 
 		function updateCategory() {
 			load("データ更新中...");
+
+			if ($.trim($("#textMemo").val()) == "") {
+				$("#spanUpdateErr").show();
+				$("#spanUpdateErr").text("(#ﾟДﾟ) <ﾀﾞﾒｯｯ!!");
+				$.unblockUI();
+				return false;
+			}
+
 			$.ajax({
 				url: '/categoryList',
 				method: 'post',
@@ -78,7 +86,7 @@
 
 			<div>
 				<textarea id="textMemo" rows="4" cols="40" placeholder="ヾ(*｀Д´*)ノ < ｶｹｰｯ"></textarea>
-				<br /><input type="button" id="buttonUpdate" value="登録" />
+				<br /><input type="button" id="buttonUpdate" value="登録" /><span id="spanUpdateErr" class="alert_msg"></span>
 				<br />
 
 				<table class="table">

@@ -39,10 +39,15 @@ router.get('/', function (req, res, next) {
                     + ", m1.名前 as カテゴリー名"
                     + ", to_char(m1.作成日付, 'yyyy/mm/dd hh24:mi:ss') as カテゴリ作成日付"
                     + ", m2.名前 as ユーザー名 "
-                    + ", (select to_char(max(t1.作成日付), 'yyyy/mm/dd hh24:mi:ss') from " + conf.db.schema +"t_comment t1 where t1.カテゴリcd = m1.カテゴリcd) as 最新更新日付"
+                    + ", to_char(t1.作成日付, 'yyyy/mm/dd hh24:mi:ss') as 最新更新日付"
+                    + ", m3.名前 as 最新更新者"
                     + " from " + conf.db.schema + "m_komoku m1"
                     + " inner join " + conf.db.schema + "m_user m2 on m1.作成者cd = m2.ユーザーcd"
-                    + " order by m1.作成日付 desc"
+                    + " inner join " + conf.db.schema + "t_comment t1 on t1.カテゴリcd = m1.カテゴリcd"
+                    + "  and t1.作成日付 = (select max(t2.作成日付) from " + conf.db.schema + "t_comment t2"
+                    + "     where t2.カテゴリcd = m1.カテゴリcd)"
+                    + " inner join " + conf.db.schema + "m_user m3 on t1.作成者cd = m3.ユーザーcd"
+                    + " order by 最新更新日付 desc"
                 );
                 if (result !== undefined) {
                     if (result.rowCount == 0) {
@@ -57,12 +62,13 @@ router.get('/', function (req, res, next) {
                                 , date: result.rows[lc]["カテゴリ作成日付"]
                                 , user: result.rows[lc]["ユーザー名"]
                                 , maxDate: result.rows[lc]["最新更新日付"]
+                                , lastUser: result.rows[lc]["最新更新者"]
                             };
                             datas.push(JSON.stringify(data));
                             console.log(result.rows[lc]["名前"]);
                         }
                     }
-                    res.render('categoryList', { title: 'Category List', data: datas });
+                    res.render('categoryList', { title: 'お は な し', data: datas });
                 }
             } catch (err) {
                 console.log(err.stack);

@@ -33,6 +33,24 @@ const pool = new pg.Pool({
 //    }
 //})
 
+// crypto
+const crypto = require('crypto');
+
+// crypto.randomBytes()で生成するときのバイト数
+const nBytes = 4;
+// nBytesの整数の最大値
+const maxValue = 4294967295
+
+// [0.0, 1.0]区間でセキュアな乱数を生成
+function secureRandom() {
+    // nBytesバイトのランダムなバッファを生成
+    const randomBytes = crypto.randomBytes(nBytes);
+    //ランダムなバッファを整数値に変換
+    const r = randomBytes.readUIntBE(0, nBytes);
+ 
+    return Math.floor(r / maxValue * 4);
+}
+
 
 app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -44,7 +62,18 @@ app.use(function (req, res, next) {
 /* GET users listing. */
 router.get('/', function (req, res, next) {
     console.log("login!");
-    res.render('login');
+
+    var pics = ["eri.jpg", "eri2.jpg", "eri3.jpg", "eri4.jpeg"];
+    var random = secureRandom();
+    var picPath;
+
+    for (var i = 0; i <= pics.length; i++) {
+        if (i <= random && i + 1 > random){
+            picPath = pics[i];
+        }
+    }
+
+    res.render('login', { picPath: picPath });
 });
 
 router.post('/', function (req, res) {

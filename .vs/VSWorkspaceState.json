@@ -1,13 +1,13 @@
 {
   "ExpandedNodes": [
     "",
+    "\\config",
     "\\css",
     "\\data_template",
-    "\\js",
     "\\pic",
     "\\routes",
     "\\views"
   ],
-  "SelectedNode": "\\css\\style.css",
+  "SelectedNode": "\\views\\board.ejs",
   "PreviewInSolutionExplorer": false
 }
