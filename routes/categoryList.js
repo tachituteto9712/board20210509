@@ -36,6 +36,7 @@ router.get('/', function (req, res, next) {
             try {
                 var result = await client.query(
                     "select *"
+                    + ", m1.カテゴリcd as カテゴリcd"
                     + ", m1.名前 as カテゴリー名"
                     + ", to_char(m1.作成日付, 'yyyy/mm/dd hh24:mi:ss') as カテゴリ作成日付"
                     + ", m2.名前 as ユーザー名 "

@@ -113,7 +113,7 @@ router.post('/', function (req, res) {
                                 var dt = new Date();
                                 var formatted = dt.toFormat("YYYY-MM-DD HH24:MI:SS");
 
-                                var comment = req.body.naiyo.replace(/\n/g, '<br>');
+                                var comment = req.body.naiyo.replace(/\n/g, '<br/>');
                                 await client.query("INSERT INTO " + conf.db.schema + "t_comment"
                                     + " (カテゴリcd, seq, 内容, 作成者cd, 作成日付, 更新者cd, 更新日付)"
                                     + " VALUES($1, $2, $3, $4, $5, $6, $7); "
