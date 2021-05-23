@@ -42,11 +42,11 @@ router.get('/', function (req, res, next) {
                     + ", to_char(t1.作成日付, 'yyyy/mm/dd hh24:mi:ss') as 最新更新日付"
                     + ", m3.名前 as 最新更新者"
                     + " from " + conf.db.schema + "m_komoku m1"
-                    + " inner join " + conf.db.schema + "m_user m2 on m1.作成者cd = m2.ユーザーcd"
-                    + " inner join " + conf.db.schema + "t_comment t1 on t1.カテゴリcd = m1.カテゴリcd"
+                    + " left join " + conf.db.schema + "m_user m2 on m1.作成者cd = m2.ユーザーcd"
+                    + " left join " + conf.db.schema + "t_comment t1 on t1.カテゴリcd = m1.カテゴリcd"
                     + "  and t1.作成日付 = (select max(t2.作成日付) from " + conf.db.schema + "t_comment t2"
                     + "     where t2.カテゴリcd = m1.カテゴリcd)"
-                    + " inner join " + conf.db.schema + "m_user m3 on t1.作成者cd = m3.ユーザーcd"
+                    + " left join " + conf.db.schema + "m_user m3 on t1.作成者cd = m3.ユーザーcd"
                     + " order by 最新更新日付 desc"
                 );
                 if (result !== undefined) {
