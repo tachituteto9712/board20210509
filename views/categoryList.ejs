@@ -68,10 +68,11 @@
 		}
 	</script>
 </head>
-<body>
+<body style="margin:15px;">
 	<h1><%= title %></h1>
+	<img src="/pic/<%=picPath%>" alt="" title="" style="position:absolute;top:0px;right:0px;width:300px;height:300px;" />
 	<form>
-		<div class="main">
+		<div class="" style="margin-top:20px">
 			<div>
 				<input type="button" value="+" class="plus_button">
 				<input type="button" value="-" class="minus_button">
@@ -85,10 +86,15 @@
 			</div><!--ここまで-->
 
 			<div>
-				<textarea id="textMemo" rows="4" cols="40" placeholder="ヾ(*｀Д´*)ノ < ｶｹｰｯ"></textarea>
-				<br /><input type="button" id="buttonUpdate" value="登録" /><span id="spanUpdateErr" class="alert_msg"></span>
-				<br />
+				<div style="display:flex">
+					<div style=" flex:1;">
+						<textarea id="textMemo" rows="4" cols="40" placeholder="ヾ(*｀Д´*)ノ < ｶｹｰｯ"></textarea>
+						<br /><input type="button" id="buttonUpdate" value="登録" /><span id="spanUpdateErr" class="alert_msg"></span>
+					</div>
+					<div style=" flex:2;">
 
+					</div>
+				</div>
 				<table class="table">
 					<% for(var i in data){%>
 					<%- include('../data_template/category_list', {val:data[i]})%>

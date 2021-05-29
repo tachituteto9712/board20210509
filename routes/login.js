@@ -73,7 +73,19 @@ router.get('/', function (req, res, next) {
         }
     }
 
-    res.render('login', { picPath: picPath });
+    var hideInput = 0;
+    if (getCookie('userCd', req) != '')
+    {
+        req.session.userCd = getCookie('userCd', req);
+        hideInput = 1;
+    }
+    console.log(getCookie('userCd', req));
+    res.render('login', {
+        hideInput: hideInput,
+        picPath: picPath,
+        picPath1: "背景.png",
+        picPath2: "本体.png"
+    });
 });
 
 router.post('/', function (req, res) {
@@ -86,7 +98,6 @@ router.post('/', function (req, res) {
                 console.log(err);
                 return;
             } else {
-                
                 //同期っぽい処理
                 try {
                     console.log("console");
@@ -100,6 +111,9 @@ router.post('/', function (req, res) {
                         } else {
                             ret["result"] = "OK";
                             req.session.userCd = result.rows[0]["ユーザーcd"];
+
+                            setCookie('userCd', result.rows[0]["ユーザーcd"], res);
+
                             for (lc = 0; lc < result.rowCount; lc++) {
                             }
                             ret["msg_face"] = "(*´ω｀) ﾖｳｺｿ";
@@ -127,5 +141,23 @@ router.post('/', function (req, res) {
         //res.render('login', { title: 'Login' });
     }
 });
+
+function setCookie(key, value, response) {
+    var cookie = escape(value);
+    response.setHeader('Set-Cookie', [key + '=' + cookie]);
+}
+
+function getCookie(key, request) {
+    var cookie_data = request.headers.cookie != undefined ? request.headers.cookie : '';
+    var data = cookie_data.split(';');
+    for (var i in data) {
+        if (data[i].trim().startsWith(key + '=')) {
+            var result = data[i].trim().substring(key.length + 1);
+            return unescape(result);
+		}
+    }
+    return '';
+}
+
 
 module.exports = router;

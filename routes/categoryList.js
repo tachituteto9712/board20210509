@@ -17,6 +17,22 @@ const pool = new pg.Pool({
 
 require('date-utils');
 
+const crypto = require('crypto');
+// crypto.randomBytes()で生成するときのバイト数
+const nBytes = 4;
+// nBytesの整数の最大値
+const maxValue = 4294967295
+
+// [0.0, 1.0]区間でセキュアな乱数を生成
+function secureRandom() {
+    // nBytesバイトのランダムなバッファを生成
+    const randomBytes = crypto.randomBytes(nBytes);
+    //ランダムなバッファを整数値に変換
+    const r = randomBytes.readUIntBE(0, nBytes);
+
+    return Math.floor(r / maxValue * 4);
+}
+
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -25,7 +41,6 @@ router.get('/', function (req, res, next) {
         res.redirect("/login");
         return;
     } else {
-        console.log(req.session.userCd);
     }
     pool.connect(async (err, client) => {
         if (err) {
@@ -66,10 +81,19 @@ router.get('/', function (req, res, next) {
                                 , lastUser: result.rows[lc]["最新更新者"]
                             };
                             datas.push(JSON.stringify(data));
-                            console.log(result.rows[lc]["名前"]);
                         }
                     }
-                    res.render('categoryList', { title: 'お は な し', data: datas });
+                    var pics = ["eri.jpg", "eri2.jpg", "eri3.jpg", "eri4.jpeg"];
+                    var random = secureRandom();
+                    var picPath;
+
+                    for (var i = 0; i <= pics.length; i++) {
+                        if (i <= random && i + 1 > random) {
+                            picPath = pics[i];
+                        }
+                    }
+
+                    res.render('categoryList', { title: 'お は な し', data: datas, picPath: picPath});
                 }
             } catch (err) {
                 console.log(err.stack);
