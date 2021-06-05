@@ -1,13 +1,12 @@
 <% if(val != ''){%>
 <% var obj = JSON.parse(val);%>
 <tr>
-	<td name="mark"style="width:20px;border:none;font-size:30px" memo="<%=obj.memo_flg%>">★</td>
+	<td name="mark"style="width:20px;border:none;font-size:30px" td="<%=obj.todo_flg%>" sq="<%=obj.seq%>">★</td>
 	<th style="width:200px;">
 		<%= obj.name%>
 		<br />
 		<span style="color:palevioletred;font-size:15px;"><%= obj.date%></span>
 	</th>
-	<td><%- obj.naiyo%></td>
-	<td></td>
+	<td style="word-break:break-word;display: inline-block; max-width: 450px"><%- obj.naiyo%></td>
 </tr>
 <%}%>

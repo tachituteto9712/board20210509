@@ -119,8 +119,9 @@ router.get('/', function (req, res, next) {
 router.post('/', function (req, res) {
     var ret = {};
     ret["result"] = "OK";
-    if (req.body.mode == "updateCategory") {
-        pool.connect(async (err, client) => {
+    
+    var mode = req.body.mode;
+    if (mode == "updateCategory") {
             //同期っぽい処理
             try {
                 pool.connect(async (err, client) => {
@@ -175,8 +176,8 @@ router.post('/', function (req, res) {
                 console.log(err.stack);
 
             }
-
-        });
+    } else if (mode == "updateTodo")
+    {
     }
 });
 module.exports = router;

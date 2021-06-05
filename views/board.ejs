@@ -3,13 +3,19 @@
 <head>
     <title><%= title %></title>
     <meta name="viewport" content="user-scalable=no">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" crossorigin="anonymous">
-    <link rel="stylesheet" href="/css/style.css">
     <script src="/js/jquery-3.6.0.min.js"></script>
     <script src="/js/jquery-ui.min.js"></script>
     <script src="/js/jquery.blockUI.js"></script>
+    <script src="/js/jquery.ui.touch-punch.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="/css/jquery-ui.css">
+    <link type="text/css" rel="stylesheet" href="/css/jquery-ui.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/banner.css">
     <script>
         $(document).ready(function () {
+            $("#select_star").val("<%= selectedStar %>");
+			$.unblockUI();
             $(".plus_button").click(function () {
                 var $div = $(this).closest("div");
                 $div.find("div.komidashi").show();
@@ -31,34 +37,66 @@
                 searchBoard();
             });
 
-            //         $(".table tr td[memo=''], .table tr td[memo='0']").css("color", "blue");
-            //$(".table tr td[memo='1']").css("color", "red");
-            //         $(".table tr td[name='mark']").click(function () {
-            //	var $tr = $(this).closest("tr");
-            //             if ($(this).attr("memo") == "" || $(this).attr("memo") == "0") {
-            //                 $(this).css("color", "red");
-            //                 $(this).attr("memo", "1");
-            //		$tr.css("background-color", "#FFDDFF");
-            //	} else if ($(this).attr("memo") == "1"){
-            //		$(this).css("color", "blue");
-            //                 $(this).attr("memo", "0");
-            //		$tr.css("background-color", "#CCFFFF");
-            //             }
-            //         });
-            //         $(".table tr td[name='mark']").hover(function () {
-            //             var $tr = $(this).closest("tr");
-            //	if ($(this).attr("memo") == "" || $(this).attr("memo") == "0") {
-            //		$tr.css("background-color", "#CCFFFF");
-            //	} else if ($(this).attr("memo") == "1"){
-            //		$tr.css("background-color", "#FFDDFF");
-            //             }
+			$("#select_star").change(function () {
+                load("検索...");
+                searchBoard();
+			});
 
-            //         }, function () {
-            //	var $tr = $(this).closest("tr");
-            //	$tr.css("background-color", "#FFFFFF");
-            //         });
 
-            $(".table tr td[name='mark']").draggable();
+			var nonSelected = '#F2EFFB';
+            var nonSelectedFont = '#A9A9A9';
+            var selected = '#E0F8E0';
+            var selectedFont = '#FFD700';
+            $(".table tr td[td=''], .table tr td[td='0']").css("color", nonSelectedFont);
+            $(".table tr td[td='1']").css("color", selectedFont);
+            $(".table tr td").click(function () {
+                var $tr = $(this).closest("tr");
+                if ($(this).attr("td") == "" || $(this).attr("td") == "0") {
+                    $(this).css("color", selectedFont);
+                    $(this).attr("td", "1");
+                    $tr.css("background-color", selected);
+                } else if ($(this).attr("td") == "1") {
+                    $(this).css("color", nonSelectedFont);
+                    $(this).attr("td", "0");
+                    $tr.css("background-color", nonSelected);
+                }
+            });
+            //$(".table tr td[name='mark']").hover(function () {
+            //    var $tr = $(this).closest("tr");
+            //    if ($(this).attr("todo") == "" || $(this).attr("todo") == "0") {
+            //        $tr.css("background-color", "#CCFFFF");
+            //    } else if ($(this).attr("todo") == "1") {
+            //        $tr.css("background-color", "#FFDDFF");
+            //    }
+
+            //}, function () {
+            //    var $tr = $(this).closest("tr");
+            //    $tr.css("background-color", "#FFFFFF");
+            //});
+
+            //$(".table tr td[name='mark']").draggable();
+            var max = 100;
+            $("#todo_slider").slider({
+				max: max, //最大値
+                min: 0, //最小値
+                value: 0, //初期値
+                step: 5, //幅
+
+                slide: function (event, ui) {
+                    //$("#todo_value").html("変更中：" + ui.value);
+                },
+                create: function (event, ui) {
+                    //$("#todo_value").html("初期値：" + $(this).slider("value"));
+                },
+                change: function (event, ui) {
+                    if (max == ui.value) {
+						$("#todo_value").text("|ω·`)<ｳｺﾞｶｼﾀﾅ...?")
+                        updateTodo();
+                    } else {
+                        $("#todo_value").text("|ω·`)<ｳｺﾞｶｽﾅｯﾃ");
+                    }
+                }
+            });
         });
 
         function load(msg) {
@@ -72,7 +110,7 @@
             if ($.trim($("#textMemo").val()) == "") {
                 $("#spanUpdateErr").show();
                 $("#spanUpdateErr").text("(#ﾟДﾟ) <ﾀﾞﾒｯｯ!!");
-				$.unblockUI();
+                $.unblockUI();
                 return false;
             }
 
@@ -89,7 +127,7 @@
                         alert("No...");
                     } else {
                         load("(´ω`)おけ...ページ更新中...");
-						location.href = "/board?ccd=" + $("#hiddenCategory").val();
+                        location.href = "/board?ccd=" + $("#hiddenCategory").val();
                     }
                     $.unblockUI();
                 },
@@ -102,6 +140,46 @@
                 }
             });
         }
+
+		function updateTodo() {
+			load("データ更新中...");
+            var datas = [];
+			var categoryCd = $("#hiddenCategory").val();
+            $("#comment_table").find("tr").each(function (i, e) {
+                var data = {};
+                var seq = $(e).find("td[sq]").attr("sq");
+                var todoFlg = $(e).find("td[td]").attr("td");
+				data["categoryCd"] = categoryCd;
+                data["seq"] = seq;
+                data["todoFlg"] = todoFlg;
+	
+                datas.push(data);
+            });
+			$.ajax({
+				url: '/board',
+				method: 'post',
+				data: {
+					mode: "updateTodo",
+					datas: JSON.stringify(datas)
+				},
+				success: function (data) {
+					if (data["result"] == "NG") {
+						alert("No...");
+					} else {
+						load("(´ω`)おけ...ページ更新中...");
+						location.href = "/board?ccd=" + $("#hiddenCategory").val();
+					}
+					$.unblockUI();
+				},
+				error: function (XMLHttpRequest, textStatus, errorThrown) {
+					alert('error!!!');
+					console.log("XMLHttpRequest : " + XMLHttpRequest.status);
+					console.log("textStatus     : " + textStatus);
+					console.log("errorThrown    : " + errorThrown.message);
+					$.unblockUI();
+				}
+			});
+		}
 
         function searchBoard() {
             load("データ検索中...");
@@ -125,47 +203,58 @@
         <div id="div_msg"　style="display:none">
 
         </div>
-		<div class="main">
+        <div class="main">
             <input type="button" value="戻る" onclick="location.href = '/categoryList';">
-			<div>
-                 <div class="elements">
-                     <input type="button" value="+" class="plus_button">
-                     <input type="button" value="-" class="minus_button">
-                     <div class="komidashi">
-                         <ul>
-                             <li>あ</li>
-                             <li>ん</li>
-                             <li>こ</li>
-                         </ul>
-                     </div>
-                 </div><!--ここまで-->
-                 <textarea id="textMemo" rows="4" cols="40" placeholder="ヾ(*｀Д´*)ノ < ｶｹｰｯ" style="font-size:25px" autocomplete="off"></textarea>
-                 
-                 <table>
-                     <tr>
-                         <td>
-                             <input type="button" id="buttonUpdate" value="登録" style="font-size:25px"/><span id="spanUpdateErr" class="alert_msg"></span>
-                         </td>
-                     </tr>
-                     <tr style="margin-top:10px;margin-bottom:10px">
-                         <td>
-                 
-                             <input type="text" id="textSearch" value="<%= searchText%>" placeholder="(｢･ω･)｢<ｻｶﾞｽﾉﾀﾞ" name="srch" style="height: 50px; font-size: 30px;" autocomplete="off"/>
-                             <span style="font-size:40px">></span><input type="button" id="buttonSearch" value="検索" style="font-size:25px"/>
-                         </td>
-                     </tr>
-                 </table>
+            <div class="base board_banner">
+                <div id="todo_slider">
+                </div>
+                <div id="todo_value">
+                    |ω·`)<ｳｺﾞｶｽﾅﾖ
+                </div>
+                <select id="select_star" name="star">
+                    <option value="">ほしえらぶ</option>
+                    <option value="0">のっとほし</option>
+                    <option value="1">いえすほし</option>
+                </select>
+            </div>
+            <div>
+                <div class="elements">
+                    <input type="button" value="+" class="plus_button">
+                    <input type="button" value="-" class="minus_button">
+                    <div class="komidashi">
+                        <ul>
+                            <li>あ</li>
+                            <li>ん</li>
+                            <li>こ</li>
+                        </ul>
+                    </div>
+                </div><!--ここまで-->
+                <textarea id="textMemo" rows="4" cols="40" placeholder="ヾ(*｀Д´*)ノ < ｶｹｰｯ" style="font-size:25px" autocomplete="off"></textarea>
 
-				<br />
+                <table>
+                    <tr>
+                        <td>
+                            <input type="button" id="buttonUpdate" value="登録" style="font-size:25px" /><span id="spanUpdateErr" class="alert_msg"></span>
+                        </td>
+                    </tr>
+                    <tr style="margin-top:10px;margin-bottom:10px">
+                        <td>
+                            <input type="text" id="textSearch" value="<%= searchText%>" placeholder="(｢･ω･)｢<ｻｶﾞｽﾉﾀﾞ" name="srch" style="height: 50px; font-size: 30px;" autocomplete="off" />
+                            <span style="font-size:40px">></span><input type="button" id="buttonSearch" value="検索" style="font-size:25px" />
+                        </td>
+                    </tr>
+                </table>
 
-				<table class="table">
-					<% for(var i in data){%>
-					<%- include('../data_template/data_item', {val:data[i]})%>
-					<%}%>
-				</table>
-			</div>
-            <input id="hiddenCategory"type="hidden" value="<%=categoryCd%>" name="ccd">
-		</div>
+                <br />
+
+                <table id="comment_table" class="table">
+                    <% for(var i in data){%>
+                    <%- include('../data_template/data_item', {val:data[i]})%>
+                    <%}%>
+                </table>
+            </div>
+            <input id="hiddenCategory" type="hidden" value="<%=categoryCd%>" name="ccd">
+        </div>
 	</form>
 </body>
 </html>
