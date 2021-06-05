@@ -83,17 +83,17 @@
                 step: 5, //幅
 
                 slide: function (event, ui) {
-                    //$("#todo_value").html("変更中：" + ui.value);
+					$("#todo_value").text("|ε:)")
                 },
                 create: function (event, ui) {
                     //$("#todo_value").html("初期値：" + $(this).slider("value"));
                 },
                 change: function (event, ui) {
                     if (max == ui.value) {
-						$("#todo_value").text("|ω·`)<ｳｺﾞｶｼﾀﾅ...?")
+						$("#todo_value").text("|(#ﾟДﾟ) ")
                         updateTodo();
                     } else {
-                        $("#todo_value").text("|ω·`)<ｳｺﾞｶｽﾅｯﾃ");
+                        $("#todo_value").text("|");
                     }
                 }
             });
@@ -209,7 +209,7 @@
                 <div id="todo_slider">
                 </div>
                 <div id="todo_value">
-                    |ω·`)<ｳｺﾞｶｽﾅﾖ
+                    |
                 </div>
                 <select id="select_star" name="star">
                     <option value="">ほしえらぶ</option>

@@ -12,6 +12,13 @@ header{
     font-size:100px;
 }
 
+select {
+    font-size: 27px;
+}
+
+select option {
+    font-size:20px;
+}
 .plus_button {
     width: 30px;
     color: #fff;
