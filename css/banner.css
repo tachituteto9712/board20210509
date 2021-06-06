@@ -5,24 +5,25 @@
 .board_banner {
     right: 50px;
     top: 450px;
-    background-color: #F2EFFB;
+    background-color: #EFFBF5;
     box-shadow: 10px 10px 10px rgba(0,0,0,0.4);
     border-radius: 10px 10px 10px 10px;
     padding: 15px;
     padding-bottom: 15px;
-    height:auto;
-    min-height:90px;
-    width:180px;
-    background-color:#CCC;
+    height: auto;
+    min-height: 90px;
+    width: 180px;
 }
 
     .board_banner #todo_slider {
-        margin-top:20px;
+        margin-top: 20px;
+        margin-bottom: 40px;
     }
-    .board_banner #todo_slider span{
-        font-size: 60px;
-    }
+        .board_banner #todo_slider span {
+            font-size: 60px;
+            background-color: #E0E6F8;
+        }
     .board_banner #todo_value {
-        margin-top: 40px;
+        
         font-size: 35px;
     }
